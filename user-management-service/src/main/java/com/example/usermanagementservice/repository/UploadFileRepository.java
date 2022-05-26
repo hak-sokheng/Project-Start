@@ -2,6 +2,10 @@ package com.example.usermanagementservice.repository;
 
 import com.example.usermanagementservice.entity.UploadEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * Created by Hak Sokheng
@@ -9,4 +13,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Email    : sokheng.hak@prasac.com.kh
  */
 public interface UploadFileRepository extends JpaRepository<UploadEntity, Long> {
+    @Query("SELECT U FROM UploadEntity U WHERE U.fileName=?1 AND U.userId=?2")
+    UploadEntity findByFileNameAndUserId(String fileName, Long userId);
+
+    @Modifying
+    @Query("DELETE from UploadEntity U WHERE U.userId=?1 and U.fileName in (?2) ")
+    void deleteUploadFile(Long registerId, List<String> fileName);
 }

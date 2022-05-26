@@ -1,5 +1,6 @@
 package com.example.usermanagementservice.dto.response;
 
+import com.example.usermanagementservice.entity.UploadEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,12 @@ public class UploadFileResponse {
     private String fileName;
     private String path;
     private Boolean status;
+
+    public UploadFileResponse(UploadEntity uploadEntity) {
+        this.id = uploadEntity.getId();
+        this.userId = uploadEntity.getUserId();
+        this.fileName = uploadEntity.getFileName();
+        this.path = uploadEntity.getPath();
+        this.status = uploadEntity.getStatus();
+    }
 }

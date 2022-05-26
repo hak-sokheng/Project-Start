@@ -1,12 +1,19 @@
 package com.example.usermanagementservice.service;
 
+import com.example.usermanagementservice.dto.response.UploadFileResponse;
 import com.example.usermanagementservice.entity.UploadEntity;
+import com.example.usermanagementservice.entity.UserEntity;
 import com.example.usermanagementservice.repository.UploadFileRepository;
+import com.example.usermanagementservice.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Hak Sokheng
@@ -16,20 +23,32 @@ import java.io.IOException;
 @Service
 public class UploadFileServiceImpl implements UploadFileService{
     private final UploadFileRepository uploadFileRepository;
+    private final UserRepository userRepository;
 
-    public UploadFileServiceImpl(UploadFileRepository uploadFileRepository) {
+    public UploadFileServiceImpl(UploadFileRepository uploadFileRepository, UserRepository userRepository) {
         this.uploadFileRepository = uploadFileRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public void uploadFiles(MultipartFile file, Long userId) throws IOException {
-        file.transferTo(new File("D:\\SpringBoot\\user-management\\upload_files\\"+file.getOriginalFilename()));
+    public UploadFileResponse uploadFiles(MultipartFile file, Long userId) throws IOException {
+
         UploadEntity uploadEntity = new UploadEntity();
         uploadEntity.setFileName(file.getOriginalFilename());
         uploadEntity.setPath("D:\\SpringBoot\\user-management\\upload_files\\");
-        uploadEntity.setUserId(userId);
         uploadEntity.setStatus(true);
-
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+        uploadEntity.setUserId(userId);
+        if (!userEntity.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        file.transferTo(new File("D:\\SpringBoot\\user-management\\upload_files\\"+file.getOriginalFilename()));
         uploadFileRepository.save(uploadEntity);
+        return new UploadFileResponse(uploadEntity);
+    }
+
+    @Override
+    public void deleteFile(Long uploadId) {
+        uploadFileRepository.deleteById(uploadId);
     }
 }
