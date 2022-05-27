@@ -2,9 +2,8 @@ package com.example.usermanagementservice.controller;
 
 import com.example.usermanagementservice.dto.response.UploadFileResponse;
 import com.example.usermanagementservice.service.UploadFileService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,8 +26,8 @@ public class FileUploadController {
     }
 
     @PostMapping
-    public void uploadFile(@RequestParam("file")MultipartFile file, @RequestParam Long userId) throws IOException {
-        uploadFileService.uploadFiles(file, userId);
+    public UploadFileResponse uploadFile(@RequestParam("file")MultipartFile file, @RequestParam Long userId) throws IOException {
+        return uploadFileService.uploadFiles(file, userId);
     }
 
     @DeleteMapping("/{id}")
