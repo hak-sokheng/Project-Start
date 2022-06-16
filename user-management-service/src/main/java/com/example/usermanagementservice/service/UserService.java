@@ -5,8 +5,6 @@ import com.example.usermanagementservice.dto.response.PaginationResponse;
 import com.example.usermanagementservice.dto.response.UserResponse;
 import com.example.usermanagementservice.entity.UserEntity;
 
-import java.util.List;
-
 /**
  * Created by Hak Sokheng
  * Date     : 4/7/2022, 4:09 PM

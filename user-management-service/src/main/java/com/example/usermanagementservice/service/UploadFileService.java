@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface UploadFileService {
     UploadFileResponse uploadFiles(MultipartFile file, Long userId) throws IOException;
+    UploadFileResponse findById(Long uploadId);
+    void deleteFile(List<String> fileToDeletes, Long uploadId);
 
-    void deleteFile(Long uploadId);
 }

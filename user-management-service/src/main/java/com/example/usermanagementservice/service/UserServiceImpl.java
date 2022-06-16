@@ -1,11 +1,15 @@
 package com.example.usermanagementservice.service;
+import com.example.usermanagementservice.client.UserRequestc;
 import com.example.usermanagementservice.dto.request.UserRequest;
 import com.example.usermanagementservice.dto.response.PaginationResponse;
 import com.example.usermanagementservice.dto.response.UserResponse;
 import com.example.usermanagementservice.entity.UserEntity;
 import com.example.usermanagementservice.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,35 +26,66 @@ import java.util.Optional;
  * Date     : 3/21/2022, 2:15 PM
  * Email    : sokheng.hak@prasac.com.kh
  */
-
 @Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final EntityManager entityManager;
+    private final RestTemplate restTemplate;
 
-    public UserServiceImpl(UserRepository userRepository, EntityManager entityManager) {
+    public UserServiceImpl(UserRepository userRepository, EntityManager entityManager, RestTemplate restTemplate) {
         this.userRepository = userRepository;
         this.entityManager = entityManager;
+        this.restTemplate = restTemplate;
     }
 
+    //post
     @Override
     public UserResponse createOrUpdate(UserRequest userRequest, Long id) {
         UserEntity userEntity = userRepository.findById(id).orElse(new UserEntity());
-        userEntity.setNameEn(userRequest.getNameEn());
-        userEntity.setNameKh(userRequest.getNameKh());
+
+//        postPlainJSON();
+
+//        userEntity.setNameEn(userRequest.getNameEn());
+//        userEntity.setNameKh(userRequest.getNameKh());
         userEntity.setEmail(userRequest.getEmail());
         userEntity.setPassword(userRequest.getPassword());
-        userEntity.setStatus(userRequest.isStatus());
-        userEntity.setCreated_date(userRequest.getCreated_date());
+//        userEntity.setStatus(userRequest.isStatus());
+//        userEntity.setCreated_date(userRequest.getCreated_date());
         userRepository.save(userEntity);
         return new UserResponse(userEntity);
     }
 
+    public UserEntity postPlainJSON(){
+        String url = "http://localhost:3001/users/post";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        UserRequestc userRequest = new UserRequestc("testing","000@gmail.com","00000","",true);
+//        userResponse.setEmail("hello@gmail.com");
+        HttpEntity<UserRequestc> request = new HttpEntity<>(userRequest, headers);
+//        ResponseEntity<UserResponse> response = restTemplate.postForEntity(url, request, UserResponse.class);
+        return restTemplate.postForObject(url, request, UserEntity.class);
+    }
+
+    //get by Id
     @Override
     public UserResponse findUserById(Long id) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
-        return userEntity.map(UserResponse::new).orElse(null);
+
+        UserEntity userEntities = getPostsPlainJSON(id);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(userEntity.get().getId());
+        userResponse.setPassword(userEntities.getPassword());
+        userResponse.setEmail(userEntities.getEmail());
+        userResponse.setNameEn(userEntity.get().getNameEn());
+        userResponse.setNameKh(userEntity.get().getNameKh());
+        userResponse.setCreated_date(userEntity.get().getCreated_date());
+        return userResponse;
+    }
+    public UserEntity getPostsPlainJSON(Long id) {
+        String url = "http://localhost:3001/users/{id}";
+        return this.restTemplate.getForObject(url, UserEntity.class,id);
     }
 
     @Override

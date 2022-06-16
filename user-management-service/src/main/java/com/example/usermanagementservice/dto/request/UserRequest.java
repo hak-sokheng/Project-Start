@@ -17,4 +17,5 @@ public class UserRequest {
     private String email;
     private boolean status;
     private Date created_date;
+
 }
