@@ -1,5 +1,7 @@
 package com.example.usermanagementservice.controller;
 
+import com.example.usermanagementservice.client.UserRequestc;
+import com.example.usermanagementservice.client.UserResponsec;
 import com.example.usermanagementservice.dto.request.UserRequest;
 import com.example.usermanagementservice.dto.response.PaginationResponse;
 import com.example.usermanagementservice.dto.response.UserResponse;
@@ -26,13 +28,14 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse createUser(@RequestBody UserRequest userRequest){
-        return userService.createOrUpdate(userRequest, 0L);
+    public UserResponse createUser(@RequestBody UserRequest userRequest, UserRequestc userRequestc ){
+        return userService.createUser(userRequest,userRequestc);
     }
 
     @PutMapping("/{id}")
-    public UserResponse updateUser(@RequestBody UserRequest userRequest, @PathVariable("id") long id){
-        return userService.createOrUpdate(userRequest,id);
+    public UserResponse updateUser(@RequestBody UserRequest userRequest,UserRequestc userRequestc, @PathVariable("id") long id){
+        return userService.updateUser(userRequest,userRequestc,id);
+//        return null;
     }
 
     @GetMapping("/{id}")

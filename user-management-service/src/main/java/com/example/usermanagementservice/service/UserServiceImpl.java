@@ -5,7 +5,6 @@ import com.example.usermanagementservice.dto.response.PaginationResponse;
 import com.example.usermanagementservice.dto.response.UserResponse;
 import com.example.usermanagementservice.entity.UserEntity;
 import com.example.usermanagementservice.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -41,31 +40,61 @@ public class UserServiceImpl implements UserService{
 
     //post
     @Override
-    public UserResponse createOrUpdate(UserRequest userRequest, Long id) {
-        UserEntity userEntity = userRepository.findById(id).orElse(new UserEntity());
+    public UserResponse createUser(UserRequest userRequest, UserRequestc userRequestc) {
+        UserEntity userEntity = new UserEntity();
 
-//        postPlainJSON();
+        postPlainJSON(userRequestc);
 
 //        userEntity.setNameEn(userRequest.getNameEn());
 //        userEntity.setNameKh(userRequest.getNameKh());
-        userEntity.setEmail(userRequest.getEmail());
-        userEntity.setPassword(userRequest.getPassword());
+//        userEntity.setEmail(userRequest.getEmail());
+//        userEntity.setPassword(userRequest.getPassword());
 //        userEntity.setStatus(userRequest.isStatus());
 //        userEntity.setCreated_date(userRequest.getCreated_date());
         userRepository.save(userEntity);
         return new UserResponse(userEntity);
     }
 
-    public UserEntity postPlainJSON(){
+
+    public UserEntity postPlainJSON(UserRequestc userRequestcc){
         String url = "http://localhost:3001/users/post";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        UserRequestc userRequest = new UserRequestc("testing","000@gmail.com","00000","",true);
-//        userResponse.setEmail("hello@gmail.com");
-        HttpEntity<UserRequestc> request = new HttpEntity<>(userRequest, headers);
+        UserRequestc userRequestc = new UserRequestc(
+                userRequestcc.getUsername(),userRequestcc.getEmail(),userRequestcc.getPassword(),true);
+        HttpEntity<UserRequestc> request = new HttpEntity<>(userRequestc, headers);
 //        ResponseEntity<UserResponse> response = restTemplate.postForEntity(url, request, UserResponse.class);
-        return restTemplate.postForObject(url, request, UserEntity.class);
+        return restTemplate.postForObject(url, request, UserEntity.class, userRequestcc);
+    }
+
+    //update
+    @Override
+    public UserResponse updateUser(UserRequest userRequest, UserRequestc userRequestc, Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElse(new UserEntity());
+
+        putPlainJSON(userRequestc,id);
+
+//        userEntity.setNameEn(userRequest.getNameEn());
+//        userEntity.setNameKh(userRequest.getNameKh());
+//        userEntity.setEmail(userRequest.getEmail());
+//        userEntity.setPassword(userRequest.getPassword());
+//        userEntity.setStatus(userRequest.isStatus());
+//        userEntity.setCreated_date(userRequest.getCreated_date());
+        userRepository.save(userEntity);
+        return new UserResponse(userEntity);
+    }
+
+    public UserEntity putPlainJSON(UserRequestc userRequestcc, Long id){
+        String url = "http://localhost:3001/users/{id}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        UserRequestc userRequestc = new UserRequestc(
+                userRequestcc.getUsername(),userRequestcc.getEmail(),userRequestcc.getPassword(),true);
+        HttpEntity<UserRequestc> request = new HttpEntity<>(userRequestc, headers);
+        ResponseEntity<UserEntity> response = this.restTemplate.exchange(url, HttpMethod.PUT, request, UserEntity.class, id);
+        return response.getBody();
     }
 
     //get by Id
@@ -111,7 +140,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String deleteUser(Long id) {
+        deletePost(id);
         userRepository.deleteById(id);
         return "delete success!";
+    }
+
+    public void deletePost(Long id) {
+        String url = "http://localhost:3001/users/{id}";
+
+        // send DELETE request to delete post with `id` 10
+        this.restTemplate.delete(url, id);
     }
 }

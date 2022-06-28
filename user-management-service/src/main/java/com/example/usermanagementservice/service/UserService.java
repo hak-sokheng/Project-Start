@@ -1,9 +1,9 @@
 package com.example.usermanagementservice.service;
 
+import com.example.usermanagementservice.client.UserRequestc;
 import com.example.usermanagementservice.dto.request.UserRequest;
 import com.example.usermanagementservice.dto.response.PaginationResponse;
 import com.example.usermanagementservice.dto.response.UserResponse;
-import com.example.usermanagementservice.entity.UserEntity;
 
 /**
  * Created by Hak Sokheng
@@ -11,7 +11,8 @@ import com.example.usermanagementservice.entity.UserEntity;
  * Email    : sokheng.hak@prasac.com.kh
  */
 public interface UserService {
-    UserResponse createOrUpdate(UserRequest userRequest, Long id);
+    UserResponse createUser(UserRequest userRequest, UserRequestc userRequestc);
+    UserResponse updateUser(UserRequest userRequest, UserRequestc userRequestc, Long id);
     UserResponse findUserById(Long id);
     PaginationResponse findAllUserByPagination(String query, Integer page, Integer size);
     String deleteUser(Long id);
