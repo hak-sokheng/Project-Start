@@ -16,6 +16,8 @@
 - **Core technologies** មានដូចជា dependency injection, events, resources, i18n, validation, data binding, type conversion, SpEL, AOP ។
 - **Spring MVC – MVC** គឺជា Model View Controller។ Model យើងប្រើសម្រាប់បង្កើតជា Table នៅក្នុង Database ហើយមានទំនាក់ទំនងជាមួយ Database ច្រើន រីឯ View វិញគឺដូចទៅនឹងការរចនាគេហទំព័រដោយការសរសេរកូដ HTML, CSS និង JavaScript ចឹង រីឯ Controller គឺប្រើសម្រាប់បង្កើតទំនាក់ទំនងរវាងនឹង Model នឹង View គឺមានន័យថាធ្វើឲ្យ Server មានទំនាក់ទំនងជាមួយ Client ។
 - **Hibernate & JPA** គឺជាលក្ខណះពិសេសរបស់ភាសា Java ដែលផ្តល់នូវមុខងារជាក់លាក់មួយ និងផ្តល់លក្ខណះស្តង់ដារទៅ ORM(Object Relational Mapping ជាឧបករណ៍ដែលផ្តល់លក្ខណះសាមញ្ញទៅឲ្យការបង្កើតទិន្នន័យ, រៀបចំទិន្នន័យនិងដំណើរការទិន្នន័យ បើនិយាយក្នុងន័យកូដគឺវាជាបច្ចេកទេសក្នុងការសរសេរកូដដើម្បីបង្រួមគ្នារវាង Object និង Data Store បញ្ជូលគ្នាទៅក្នុងប្រព័ន្ធទិន្នន័យ)។
+- **JPA** គឺជា query ដែល Generate automaticly ដោយមិនចាំបានអោយយើងសរសេរ raw query ដោយខ្លួនឯង។
+- **Hibernate** គឺជាការសរសេរ query ដែលមានលក្ខណះស្មុគស្មាញដែល JPA មិនអាចធ្វើបាន។
 - **Spring Security** ជា framework នៅក្នុងភាសា Spring ដែលប្រើសម្រាប់ត្រួតពិនិត្យ authentication និង authorization ។
 ## តើធ្វើយ៉ាងមិចបានអាចសរសេរ Springboot បាន?
 - ត្រូវចំណាំថា ដើម្បីសរសេរ Springboot បានយើងត្រូវការបង្កើត Project របស់ Springboot ដោយចូលទៅក្នុងគេហទំព័ររបស់ Spring គឺ https://start.spring.io/ ឬក៏ចូលទៅកាន់ IDE របស់អ្នក តែយល់ល្អ គួរតែចូលតាមគេហទំព័រដែលមានតំណរលីងខាងលើទៅ។ តែមុននឹងបង្កើត Project យើងត្រូវទាញយកនូវ Java Development Kit សិនដែលគេគ្រប់គ្នាហៅថា JDK មកក្នុងកុំព្យូទ័ររបស់អ្នកសិន: https://www.oracle.com/java/technologies/javase-downloads.html ហើយធ្វើការជ្រើសរើស version ណាដែរអ្នកចង់ប្រើ សម្រាប់ tutorial មួយនេះគឺពួកយើងប្រើ version 11 ចឹងអ្នកអាចប្រើ version នេះតាមពួកយើងបាន។
