@@ -11,7 +11,7 @@
 # តម្រូវការមុននឹងសិក្សា Springboot : 
 - មុននឹងអ្នកអាចរៀននឹង Springboot បាន អ្នកត្រូវមានចំណេះដឹងទាក់ទងនឹងភាសា Spring ជាមុនសិន។ ហើយអ្នកក៏គួរតែមានចំណេះដឹងទាក់ទងនឹងផ្នែក Frontend(HTML, CSS, JavaScript) ផងដែរ ព្រោះ Spring ជាភាសាដែលយើងយកវាមកប្រើនៅក្នុងផ្នែក Backend។
 # អ្វីទៅជា Springboot?
-- **Springboot** ជាការ Bootstraping នូវ Project របស់ Spring ហើយ Spring គឺជា framework របស់ភាសា Java ដែលប្រើសម្រាប់សរសេរកូដបង្កើតជា Web Application ។
+- **Springboot** ជាការ Bootstraping នូវ Project របស់ Spring ហើយ Spring គឺជា framework មួយរបស់ភាសា Java ដែលមានលក្ខណះជា Open Source ហើយ Spring បានផ្តល់នូវហេដ្ឋារចនាសម្ព័ន្ធដ៏ទូលំទូលាយសម្រាប់អភិវឌ្ឍន៏កម្មវិធី Java ដែលមានភាពងាយស្រួលសម្រាប់សរសេរកូដបង្កើតជា Web Application ។
 # ចំណុចពិសេសរបស់ Springboot
 - **Core technologies** មានដូចជា dependency injection, events, resources, i18n, validation, data binding, type conversion, SpEL, AOP ។
 - **Spring MVC – MVC** គឺជា Model View Controller។ Model យើងប្រើសម្រាប់បង្កើតជា Table នៅក្នុង Database ហើយមានទំនាក់ទំនងជាមួយ Database ច្រើន រីឯ View វិញគឺដូចទៅនឹងការរចនាគេហទំព័រដោយការសរសេរកូដ HTML, CSS និង JavaScript ចឹង រីឯ Controller គឺប្រើសម្រាប់បង្កើតទំនាក់ទំនងរវាងនឹង Model នឹង View គឺមានន័យថាធ្វើឲ្យ Server មានទំនាក់ទំនងជាមួយ Client ។
